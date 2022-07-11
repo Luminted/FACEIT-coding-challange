@@ -10,7 +10,7 @@ export const request = async <T>({
   const result = await fetch(endpoint, config);
 
   if (!result.ok) {
-    throw new Error('Something went wrong');
+    throw new Error();
   }
 
   return result.json();

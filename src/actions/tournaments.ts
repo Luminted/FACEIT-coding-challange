@@ -1,8 +1,7 @@
-import { RootState } from '../reducers';
-
 import { getTournaments } from '../api';
 import { AppThunk } from '../store';
 import { ITournament } from '../typings';
+import { TournamentFetchError } from '../constants/messages';
 export interface IGetTournamentsStart {
   type: typeof GET_TOURNAMENTS_START;
 }
@@ -43,7 +42,6 @@ export const getTournamentsAction: AppThunk = async (dispath, _) => {
     const tournaments = await getTournaments();
     dispath(getTournamentSuccess(tournaments));
   } catch (error) {
-    const { message } = error as Error;
-    dispath(getTournamentsFail(message));
+    dispath(getTournamentsFail(TournamentFetchError));
   }
 };
