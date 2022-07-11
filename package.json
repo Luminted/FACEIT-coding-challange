@@ -60,5 +60,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "devDependencies": {
+    "@redux-devtools/extension": "^3.2.2"
   }
 }
