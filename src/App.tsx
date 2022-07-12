@@ -34,7 +34,7 @@ export const App: React.FC = () => {
       {tournaments.length > 0 && (
         <TournamentGrid>
           {tournaments.map(tournament => (
-            <Tournament {...tournament} />
+            <Tournament key={tournament.id} {...tournament} />
           ))}
         </TournamentGrid>
       )}

@@ -1,4 +1,4 @@
-import { Actions } from '../actions';
+import { Actions, UPDATE_TOURNAMENT_NAME_SUCCESS } from '../actions';
 import { ITournament } from '../typings';
 import {
   GET_TOURNAMENTS_FAIL,
@@ -37,6 +37,17 @@ export default function tournaments(
       return {
         ...initialState,
         error: action.error
+      };
+    case UPDATE_TOURNAMENT_NAME_SUCCESS:
+      return {
+        ...initialState,
+        tournaments: state.tournaments.map(tournament => {
+          const { tournament: updatedTournamet } = action;
+          if (tournament.id === updatedTournamet.id) {
+            return updatedTournamet;
+          }
+          return tournament;
+        })
       };
     default:
       return state;

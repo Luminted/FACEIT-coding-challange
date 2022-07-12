@@ -1,11 +1,13 @@
 import {
   IGetTournamentFail,
   IGetTournamentSuccess,
-  IGetTournamentsStart
+  IGetTournamentsStart,
+  IUpdateTournamentNameSuccess
 } from './tournaments';
 
 export * from './tournaments';
 export type Actions =
   | IGetTournamentFail
   | IGetTournamentSuccess
-  | IGetTournamentsStart;
+  | IGetTournamentsStart
+  | IUpdateTournamentNameSuccess;

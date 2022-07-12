@@ -5,7 +5,13 @@ import theme from '../theme';
 import H6 from './H6';
 import { dateTimeStringToenGBLocalisedDateTimeString } from '../utils/date';
 import Button from './Button';
-import { deleteLabel, edit } from '../constants/messages';
+import {
+  deleteLabel,
+  edit,
+  tournamentEditPromptTitle
+} from '../constants/messages';
+import { useDispatch } from 'react-redux';
+import { updateTournamentNameAction } from '../actions';
 
 interface IProps extends ITournament {
   className?: string;
@@ -31,25 +37,38 @@ const ButtonGroupContainer = styled.div`
 `;
 
 const Tournament = ({
+  id,
   className,
   name,
   organizer,
   game,
   participants: { max, current },
   startDate
-}: IProps) => (
-  <div className={className}>
-    <H6>{name}</H6>
-    <div>Organizer: {organizer}</div>
-    <div>Game: {game}</div>
-    <div>Participants: {`${current}/${max}`}</div>
-    <div>Start: {dateTimeStringToenGBLocalisedDateTimeString(startDate)}</div>
-    <ButtonGroupContainer>
-      <MarginedButton>{edit}</MarginedButton>
-      <Button>{deleteLabel}</Button>
-    </ButtonGroupContainer>
-  </div>
-);
+}: IProps) => {
+  const dispatch = useDispatch();
+
+  const onEdit = () => {
+    const newTournamentName = prompt(tournamentEditPromptTitle, name);
+
+    if (newTournamentName !== null && newTournamentName !== name) {
+      dispatch(updateTournamentNameAction(id, newTournamentName));
+    }
+  };
+
+  return (
+    <div className={className}>
+      <H6>{name}</H6>
+      <div>Organizer: {organizer}</div>
+      <div>Game: {game}</div>
+      <div>Participants: {`${current}/${max}`}</div>
+      <div>Start: {dateTimeStringToenGBLocalisedDateTimeString(startDate)}</div>
+      <ButtonGroupContainer>
+        <MarginedButton onClick={onEdit}>{edit}</MarginedButton>
+        <Button>{deleteLabel}</Button>
+      </ButtonGroupContainer>
+    </div>
+  );
+};
 
 export default styled(Tournament)`
   border-radius: ${borderRadius};
