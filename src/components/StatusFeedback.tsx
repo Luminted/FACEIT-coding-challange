@@ -23,7 +23,6 @@ const StatusContainer = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
-  //
 `;
 
 export const StatusFeedback: React.FC = () => {
