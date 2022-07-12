@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import theme from '../theme';
-import { loading, retry } from '../constants/messages';
+import { loading, noTournaments, retry } from '../constants/messages';
 import Button from './Button';
 import { getTournamentsAction } from '../actions';
 import { selectTournaments } from '../selectors';
@@ -27,8 +27,10 @@ const StatusContainer = styled.div`
 
 export const StatusFeedback: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector(selectTournaments);
-  const displayStatus = isLoading || error;
+  const { isLoading, error, tournaments } = useSelector(selectTournaments);
+
+  const tournamentListEmpty = !error && !isLoading && tournaments.length === 0;
+  const displayStatus = isLoading || error || tournamentListEmpty;
 
   return displayStatus ? (
     <StatusContainer>
@@ -41,6 +43,7 @@ export const StatusFeedback: React.FC = () => {
           </Button>
         </>
       )}
+      {tournamentListEmpty && <StatusMessage>{noTournaments}</StatusMessage>}
     </StatusContainer>
   ) : null;
 };
