@@ -3,7 +3,8 @@ import {
   IGetTournamentSuccess,
   IGetTournamentsStart,
   IUpdateTournamentNameSuccess,
-  IDeleteTournamentSuccess
+  IDeleteTournamentSuccess,
+  ICreateTournamentSuccess
 } from './tournaments';
 
 export * from './tournaments';
@@ -12,4 +13,5 @@ export type Actions =
   | IGetTournamentSuccess
   | IGetTournamentsStart
   | IUpdateTournamentNameSuccess
-  | IDeleteTournamentSuccess;
+  | IDeleteTournamentSuccess
+  | ICreateTournamentSuccess;

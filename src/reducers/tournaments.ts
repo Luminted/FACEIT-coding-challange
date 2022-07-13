@@ -1,5 +1,6 @@
 import {
   Actions,
+  CREATE_TOURNAMENT_SUCCESS,
   DELETE_TOURNAMENT_SUCCESS,
   UPDATE_TOURNAMENT_NAME_SUCCESS
 } from '../actions';
@@ -48,6 +49,7 @@ export default function tournaments(
     case UPDATE_TOURNAMENT_NAME_SUCCESS:
       return {
         ...initialState,
+        abortController: state.abortController,
         tournaments: state.tournaments.map(tournament => {
           const { tournament: updatedTournamet } = action;
           if (tournament.id === updatedTournamet.id) {
@@ -59,9 +61,16 @@ export default function tournaments(
     case DELETE_TOURNAMENT_SUCCESS:
       return {
         ...initialState,
+        abortController: state.abortController,
         tournaments: state.tournaments.filter(
           tournament => tournament.id !== action.tournamentId
         )
+      };
+    case CREATE_TOURNAMENT_SUCCESS:
+      return {
+        ...initialState,
+        abortController: state.abortController,
+        tournaments: [action.tournament, ...state.tournaments]
       };
     default:
       return state;

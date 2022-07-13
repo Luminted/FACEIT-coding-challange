@@ -7,22 +7,13 @@ import H4 from './components/H4';
 import { StatusFeedback } from './components/StatusFeedback';
 import Tournament from './components/Tournament';
 import { selectTournaments } from './selectors';
-import { Searchbar } from './components/Searchbar';
-import theme from './theme';
-
-const { spacing } = theme;
+import { Actionbar } from './components/Actionbar';
 
 const TournamentGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 24px;
   row-gap: 24px;
-`;
-
-const ActionBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: ${spacing(3)};
 `;
 
 export const App: React.FC = () => {
@@ -36,9 +27,7 @@ export const App: React.FC = () => {
   return (
     <Container>
       <H4>FACEIT Tournaments</H4>
-      <ActionBar>
-        <Searchbar />
-      </ActionBar>
+      <Actionbar />
       <StatusFeedback />
       {tournaments.length > 0 && (
         <TournamentGrid>

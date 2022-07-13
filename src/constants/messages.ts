@@ -8,3 +8,5 @@ export const tournamentEditPromptTitle = 'New Torunament Name:';
 export const tournamentDeleteConfirmation =
   'Do you really want to delete this tournament?';
 export const searchbarPlaceholder = 'Search tournament ...';
+export const createTournament = 'Create Tournament';
+export const createTournamentPrompt = 'Tournament Name:';

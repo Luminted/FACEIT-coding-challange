@@ -1,8 +1,12 @@
-import { getTournaments, updateTournamentName } from '../api';
+import {
+  getTournaments,
+  updateTournamentName,
+  deleteTournament,
+  createTournament
+} from '../api';
 import { AppThunk } from '../store';
 import { ITournament } from '../typings';
 import { tournamentFetchError } from '../constants';
-import { deleteTournament } from '../api/deleteTournament';
 export interface IGetTournamentsStart {
   type: typeof GET_TOURNAMENTS_START;
   abortController: AbortController;
@@ -28,6 +32,11 @@ export interface IDeleteTournamentSuccess {
   tournamentId: string;
 }
 
+export interface ICreateTournamentSuccess {
+  type: typeof CREATE_TOURNAMENT_SUCCESS;
+  tournament: ITournament;
+}
+
 export const GET_TOURNAMENTS_START = 'GET_TOURNAMENTS_START';
 export const GET_TOURNAMENTS_SUCCESS = 'GET_TOURNAMENTS_SUCCESS';
 export const GET_TOURNAMENTS_FAIL = 'GET_TOURNAMENTS_FAIL';
@@ -35,6 +44,8 @@ export const GET_TOURNAMENTS_FAIL = 'GET_TOURNAMENTS_FAIL';
 export const UPDATE_TOURNAMENT_NAME_SUCCESS = 'UPDATE_TOURNAMENT_NAME_SUCCESS';
 
 export const DELETE_TOURNAMENT_SUCCESS = 'DELETE_TOURNAMENT_SUCCESS';
+
+export const CREATE_TOURNAMENT_SUCCESS = 'CREATE_TOURNAMENT_SUCCESS';
 
 export const getTournamentsStart = (
   abortController: AbortController
@@ -67,6 +78,13 @@ export const deleteTournamentSuccess = (
 ): IDeleteTournamentSuccess => ({
   type: DELETE_TOURNAMENT_SUCCESS,
   tournamentId: id
+});
+
+export const createTournamentSuccess = (
+  tournament: ITournament
+): ICreateTournamentSuccess => ({
+  type: CREATE_TOURNAMENT_SUCCESS,
+  tournament
 });
 
 export const getTournamentsAction = (searchInput?: string): AppThunk => async (
@@ -109,4 +127,11 @@ export const deleteTournamentAction = (
 ): AppThunk => async dispatch => {
   deleteTournament(id);
   dispatch(deleteTournamentSuccess(id));
+};
+
+export const createTournamentAction = (
+  name: string
+): AppThunk => async dispatch => {
+  const createdTournament = await createTournament(name);
+  dispatch(createTournamentSuccess(createdTournament));
 };
