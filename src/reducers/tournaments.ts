@@ -14,12 +14,14 @@ interface ITournamentState {
   tournaments: ITournament[];
   error: string | null;
   isLoading: boolean;
+  abortController: AbortController | null;
 }
 
 const initialState: ITournamentState = {
   tournaments: [],
   error: null,
-  isLoading: false
+  isLoading: false,
+  abortController: null
 };
 
 export default function tournaments(
@@ -30,7 +32,8 @@ export default function tournaments(
     case GET_TOURNAMENTS_START:
       return {
         ...initialState,
-        isLoading: true
+        isLoading: true,
+        abortController: action.abortController
       };
     case GET_TOURNAMENTS_SUCCESS:
       return {

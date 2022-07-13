@@ -1,10 +1,11 @@
 import { getTournaments, updateTournamentName } from '../api';
 import { AppThunk } from '../store';
 import { ITournament } from '../typings';
-import { TournamentFetchError } from '../constants';
+import { tournamentFetchError } from '../constants';
 import { deleteTournament } from '../api/deleteTournament';
 export interface IGetTournamentsStart {
   type: typeof GET_TOURNAMENTS_START;
+  abortController: AbortController;
 }
 
 export interface IGetTournamentSuccess {
@@ -35,9 +36,12 @@ export const UPDATE_TOURNAMENT_NAME_SUCCESS = 'UPDATE_TOURNAMENT_NAME_SUCCESS';
 
 export const DELETE_TOURNAMENT_SUCCESS = 'DELETE_TOURNAMENT_SUCCESS';
 
-export const getTournamentsStart: IGetTournamentsStart = {
-  type: GET_TOURNAMENTS_START
-};
+export const getTournamentsStart = (
+  abortController: AbortController
+): IGetTournamentsStart => ({
+  type: GET_TOURNAMENTS_START,
+  abortController
+});
 
 export const getTournamentSuccess = (
   tournaments: ITournament[]
@@ -65,13 +69,30 @@ export const deleteTournamentSuccess = (
   tournamentId: id
 });
 
-export const getTournamentsAction: AppThunk = async (dispath, _) => {
-  dispath(getTournamentsStart);
+export const getTournamentsAction = (searchInput?: string): AppThunk => async (
+  dispatch,
+  getStore
+) => {
+  const {
+    tournaments: { abortController }
+  } = getStore();
+
+  if (abortController) {
+    abortController.abort();
+  }
+
+  const newAbortController = new AbortController();
+  const abortSignal = newAbortController.signal;
+
+  dispatch(getTournamentsStart(newAbortController));
   try {
-    const tournaments = await getTournaments();
-    dispath(getTournamentSuccess(tournaments));
+    const tournaments = await getTournaments(searchInput, abortSignal);
+    dispatch(getTournamentSuccess(tournaments));
   } catch (error) {
-    dispath(getTournamentsFail(TournamentFetchError));
+    if (abortSignal.aborted) {
+      return;
+    }
+    dispatch(getTournamentsFail(tournamentFetchError));
   }
 };
 

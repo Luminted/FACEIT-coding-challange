@@ -2,10 +2,11 @@ import { API_TOURNAMENTS_URL } from '../constants';
 import { ITournament } from '../typings';
 import { request } from './request';
 
-export const getTournaments = () =>
+export const getTournaments = (searchInput = '', abortSignal?: AbortSignal) =>
   request<ITournament[]>({
-    endpoint: API_TOURNAMENTS_URL,
+    endpoint: `${API_TOURNAMENTS_URL}/?q=${searchInput}`,
     config: {
-      method: 'GET'
+      method: 'GET',
+      signal: abortSignal
     }
   });

@@ -7,6 +7,10 @@ import H4 from './components/H4';
 import { StatusFeedback } from './components/StatusFeedback';
 import Tournament from './components/Tournament';
 import { selectTournaments } from './selectors';
+import { Searchbar } from './components/Searchbar';
+import theme from './theme';
+
+const { spacing } = theme;
 
 const TournamentGrid = styled.div`
   display: grid;
@@ -15,21 +19,26 @@ const TournamentGrid = styled.div`
   row-gap: 24px;
 `;
 
+const ActionBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: ${spacing(3)};
+`;
+
 export const App: React.FC = () => {
   const dispatch = useDispatch();
   const { tournaments } = useSelector(selectTournaments);
 
-  const fetchTournaments = () => {
-    dispatch(getTournamentsAction);
-  };
-
   useEffect(() => {
-    fetchTournaments();
+    dispatch(getTournamentsAction());
   }, []);
 
   return (
     <Container>
       <H4>FACEIT Tournaments</H4>
+      <ActionBar>
+        <Searchbar />
+      </ActionBar>
       <StatusFeedback />
       {tournaments.length > 0 && (
         <TournamentGrid>
