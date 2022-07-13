@@ -1,4 +1,8 @@
-import { Actions, UPDATE_TOURNAMENT_NAME_SUCCESS } from '../actions';
+import {
+  Actions,
+  DELETE_TOURNAMENT_SUCCESS,
+  UPDATE_TOURNAMENT_NAME_SUCCESS
+} from '../actions';
 import { ITournament } from '../typings';
 import {
   GET_TOURNAMENTS_FAIL,
@@ -48,6 +52,13 @@ export default function tournaments(
           }
           return tournament;
         })
+      };
+    case DELETE_TOURNAMENT_SUCCESS:
+      return {
+        ...initialState,
+        tournaments: state.tournaments.filter(
+          tournament => tournament.id !== action.tournamentId
+        )
       };
     default:
       return state;

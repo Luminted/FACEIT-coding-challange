@@ -1,4 +1,4 @@
-import { API_TOURNAMENTS_URL } from '../constants/api';
+import { API_TOURNAMENTS_URL } from '../constants';
 import { ITournament } from '../typings';
 import { request } from './request';
 

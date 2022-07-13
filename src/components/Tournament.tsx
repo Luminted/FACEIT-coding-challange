@@ -8,10 +8,11 @@ import Button from './Button';
 import {
   deleteLabel,
   edit,
+  tournamentDeleteConfirmation,
   tournamentEditPromptTitle
-} from '../constants/messages';
+} from '../constants';
 import { useDispatch } from 'react-redux';
-import { updateTournamentNameAction } from '../actions';
+import { deleteTournamentAction, updateTournamentNameAction } from '../actions';
 
 interface IProps extends ITournament {
   className?: string;
@@ -55,6 +56,12 @@ const Tournament = ({
     }
   };
 
+  const onDelete = () => {
+    if (window.confirm(tournamentDeleteConfirmation)) {
+      dispatch(deleteTournamentAction(id));
+    }
+  };
+
   return (
     <div className={className}>
       <H6>{name}</H6>
@@ -64,7 +71,7 @@ const Tournament = ({
       <div>Start: {dateTimeStringToenGBLocalisedDateTimeString(startDate)}</div>
       <ButtonGroupContainer>
         <MarginedButton onClick={onEdit}>{edit}</MarginedButton>
-        <Button>{deleteLabel}</Button>
+        <Button onClick={onDelete}>{deleteLabel}</Button>
       </ButtonGroupContainer>
     </div>
   );

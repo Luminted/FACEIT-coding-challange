@@ -1,7 +1,8 @@
 import { getTournaments, updateTournamentName } from '../api';
 import { AppThunk } from '../store';
 import { ITournament } from '../typings';
-import { TournamentFetchError } from '../constants/messages';
+import { TournamentFetchError } from '../constants';
+import { deleteTournament } from '../api/deleteTournament';
 export interface IGetTournamentsStart {
   type: typeof GET_TOURNAMENTS_START;
 }
@@ -21,11 +22,18 @@ export interface IUpdateTournamentNameSuccess {
   tournament: ITournament;
 }
 
+export interface IDeleteTournamentSuccess {
+  type: typeof DELETE_TOURNAMENT_SUCCESS;
+  tournamentId: string;
+}
+
 export const GET_TOURNAMENTS_START = 'GET_TOURNAMENTS_START';
 export const GET_TOURNAMENTS_SUCCESS = 'GET_TOURNAMENTS_SUCCESS';
 export const GET_TOURNAMENTS_FAIL = 'GET_TOURNAMENTS_FAIL';
 
 export const UPDATE_TOURNAMENT_NAME_SUCCESS = 'UPDATE_TOURNAMENT_NAME_SUCCESS';
+
+export const DELETE_TOURNAMENT_SUCCESS = 'DELETE_TOURNAMENT_SUCCESS';
 
 export const getTournamentsStart: IGetTournamentsStart = {
   type: GET_TOURNAMENTS_START
@@ -50,6 +58,13 @@ export const updateTournamentNameSuccess = (
   tournament
 });
 
+export const deleteTournamentSuccess = (
+  id: string
+): IDeleteTournamentSuccess => ({
+  type: DELETE_TOURNAMENT_SUCCESS,
+  tournamentId: id
+});
+
 export const getTournamentsAction: AppThunk = async (dispath, _) => {
   dispath(getTournamentsStart);
   try {
@@ -66,4 +81,11 @@ export const updateTournamentNameAction = (
 ): AppThunk => async dispatch => {
   const updatedTournamet = await updateTournamentName(tournamentId, name);
   dispatch(updateTournamentNameSuccess(updatedTournamet));
+};
+
+export const deleteTournamentAction = (
+  id: string
+): AppThunk => async dispatch => {
+  deleteTournament(id);
+  dispatch(deleteTournamentSuccess(id));
 };

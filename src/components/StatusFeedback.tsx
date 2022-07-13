@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import theme from '../theme';
-import { loading, noTournaments, retry } from '../constants/messages';
+import { loading, noTournaments, retry } from '../constants';
 import Button from './Button';
 import { getTournamentsAction } from '../actions';
 import { selectTournaments } from '../selectors';
